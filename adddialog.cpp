@@ -9,7 +9,7 @@ void AddDialog::accept() {
     // do the stuff...
     QString name = ui->txtName->text();
     emit addParticipant(name);
-    // And let the parent do the rest
+    // And let the base do the rest
     QDialog::accept();
 }
 
