@@ -18,7 +18,7 @@ using namespace std;
 
 const QString UP_ARROW = "://images/up-arrow.png";
 const QString DOWN_ARROW = "://images/down-arrow.png";
-const int NUM_BEERS_PER_PERSON = 6;
+const int NUM_BEERS_PER_PERSON = 12;
 
 namespace Ui {
 class MainWindow;
@@ -41,6 +41,8 @@ private:
     bool active;
     int numBeersDist;
     int totalNumBeers;
+    bool endOfList;
+    bool firstRun;
 
     DIRECTION direction;
 

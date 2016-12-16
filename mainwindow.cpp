@@ -102,7 +102,8 @@ void MainWindow::onArrange() {
     ui->lblRemaining->setText(QString::number(totalNumBeers));
     ui->lblDistributed->setText("0");
     active = true;
-
+    endOfList = false;
+    firstRun = true;
 }
 
 /*******************************************************************************
@@ -115,14 +116,26 @@ void MainWindow::onNext() {
     }
     ++served;
 
+    ++numBeersDist;
+
     resetTimer();
+
+    if(endOfList == true) {
+        endOfList = false;
+        updateUI();
+        return;
+    }
 
     int negTwo, negOne, plusOne, plusTwo;
 
-    if( (pointer + 1) >= randomized.size()) {
+    if( (pointer + 1) >= randomized.size() && !firstRun) {
         direction = REVERSE;
-    } else if(pointer <= 0) {
+    } else if(pointer <= 0 && !firstRun) {
         direction = FORWARD;
+    }
+
+    if(firstRun) {
+        firstRun = false;
     }
 
     if(direction == FORWARD) {
@@ -164,14 +177,15 @@ void MainWindow::onNext() {
         QPixmap down = QPixmap(DOWN_ARROW);
         down.scaledToWidth(25);
         ui->lblArrow->setPixmap(down);
+        endOfList = true;
     }
 
     if(pointer == randomized.size()-1) {
         QPixmap up = QPixmap(UP_ARROW);
         up.scaledToWidth(25);
         ui->lblArrow->setPixmap(up);
+        endOfList = true;
     }
-    ++numBeersDist;
     updateUI();
 }
 

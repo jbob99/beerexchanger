@@ -4,6 +4,8 @@
  *
  */
 Participants::Participants(QObject* parent) : QAbstractListModel(parent) {
+    savePath = QDir::currentPath().toStdString() + "/" + FILENAME;
+    cout << savePath << endl;
     load();
 }
 
@@ -116,17 +118,17 @@ void Participants::clearParticipants() {
  *
  */
 void Participants::load() {
-	cout << "Loading from file." << endl;
-    ifstream fin(FILENAME.c_str());
+    ifstream fin(savePath.c_str());
     if(fin.is_open()) {
-		cout << "File is open, reading contents." << endl;
         string fname;
 
         while(fin.good()) {
             getline(fin, fname, ',');
             QString name;
             name.append(QString::fromStdString(fname));
-            participants.append(Participant(name));
+            if(!name.isEmpty()) {
+                participants.append(Participant(name));
+            }
         }
 		fin.close();
     } else {
@@ -139,7 +141,7 @@ void Participants::load() {
  */
 void Participants::save() {
 
-    ofstream fout(FILENAME.c_str());
+    ofstream fout(savePath.c_str());
 
     for(int k = 0; k < participants.size(); ++k) {
         Participant p = participants.at(k);

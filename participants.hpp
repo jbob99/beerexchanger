@@ -9,6 +9,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <QDir>
 
 using namespace std;
 
@@ -18,6 +19,7 @@ class Participants : public QAbstractListModel {
 private:
     QList<Participant> participants;
 
+    string savePath;
     void load();
     void save();
     int getRandom() const;
