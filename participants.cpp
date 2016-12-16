@@ -116,22 +116,22 @@ void Participants::clearParticipants() {
  *
  */
 void Participants::load() {
+	cout << "Loading from file." << endl;
     ifstream fin(FILENAME.c_str());
     if(fin.is_open()) {
-        string fname, lname;
+		cout << "File is open, reading contents." << endl;
+        string fname;
 
-        for(;;) {
-            fin >> fname >> lname;
-            if(fin.eof() || !fin.good()) {
-                break;
-            }
-
+        while(fin.good()) {
+            getline(fin, fname, ',');
             QString name;
-            name.append(QString::fromStdString(fname))
-                .append(QString::fromStdString(lname));
+            name.append(QString::fromStdString(fname));
             participants.append(Participant(name));
         }
-    }
+		fin.close();
+    } else {
+		cout << "File does not exist" << endl;
+	}
 }
 
 /*******************************************************************************
@@ -140,10 +140,12 @@ void Participants::load() {
 void Participants::save() {
 
     ofstream fout(FILENAME.c_str());
+
     for(int k = 0; k < participants.size(); ++k) {
         Participant p = participants.at(k);
-        fout << p << endl;
+        fout << p << ",";
     }
+	fout.close();
 }
 
 /*******************************************************************************
